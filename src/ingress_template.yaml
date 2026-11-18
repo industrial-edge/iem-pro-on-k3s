@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: iem-ingress
+  namespace: NAMESPACE
+  annotations:
+    traefik.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - HOSTNAME
+      secretName: SECRET_NAME
+  rules:
+    - host: HOSTNAME
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: GATEWAY_SERVICE
+                port:
+                  name: kong-proxy
